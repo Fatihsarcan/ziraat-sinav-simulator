@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local data — never commit exam history or the database
+data/
+backups/
+.env
+.env.local
+
+# Launcher logs
+launcher/server.log

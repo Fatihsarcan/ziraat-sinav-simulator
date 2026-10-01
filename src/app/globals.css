@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+/*
+ * Tasarim jetonlari.
+ * Acik tema varsayilan; koyu tema `[data-theme="dark"]` ya da sistem tercihiyle.
+ */
+:root {
+  /* Isletim sistemi kaydirma cubugu, acilir liste ve onay kutusu gibi yerlesik
+     kontroller de acik tema kullansin — aksi halde OS koyu moddayken bunlar
+     siyah kaliyor. */
+  color-scheme: light;
+
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --surface-2: #eceff3;
+  --border: #dde2e8;
+  --border-strong: #c3cad3;
+  --text: #1b2128;
+  --text-muted: #5b6672;
+  --text-subtle: #8a949f;
+
+  --accent: #1f4fd8;
+  --accent-soft: #e8edfd;
+  --accent-text: #ffffff;
+
+  --pass: #157347;
+  --pass-soft: #e3f4ea;
+  --fail: #b42318;
+  --fail-soft: #fdeceb;
+  --warn: #9a6200;
+  --warn-soft: #fdf3e2;
+  --info: #0b6e8f;
+  --info-soft: #e4f3f8;
+
+  /* Acik tema grafik paleti — scripts/validate_palette.js ile dogrulandi. */
+  --chart-1: #1f4fd8;
+  --chart-2: #0b8a6a;
+  --chart-3: #b8791a;
+  --chart-4: #8b3fc4;
+  --chart-5: #b42318;
+
+  --radius: 10px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 1px 3px rgb(16 24 40 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: #101317;
+    --surface: #171b21;
+    --surface-2: #1e242c;
+    --border: #2a323c;
+    --border-strong: #3a444f;
+    --text: #e8ecf1;
+    --text-muted: #a3adba;
+    --text-subtle: #75808d;
+
+    --accent: #6d92ff;
+    --accent-soft: #1b2745;
+    --accent-text: #0b1120;
+
+    --pass: #4ade80;
+    --pass-soft: #14301f;
+    --fail: #f87171;
+    --fail-soft: #3a1917;
+    --warn: #fbbf24;
+    --warn-soft: #3a2c10;
+    --info: #67d3f0;
+    --info-soft: #10303a;
+
+    /* Koyu tema grafik paleti — scripts/validate_palette.js ile dogrulandi
+       (L bandi 0.48-0.67, kroma >= 0.1, CVD ayrimi ve >= 3:1 kontrast). */
+    --chart-1: #4a8cf7;
+    --chart-2: #0f9c73;
+    --chart-3: #c07d08;
+    --chart-4: #a368f2;
+    --chart-5: #ee4f52;
+
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 1px 3px rgb(0 0 0 / 0.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #101317;
+  --surface: #171b21;
+  --surface-2: #1e242c;
+  --border: #2a323c;
+  --border-strong: #3a444f;
+  --text: #e8ecf1;
+  --text-muted: #a3adba;
+  --text-subtle: #75808d;
+
+  --accent: #6d92ff;
+  --accent-soft: #1b2745;
+  --accent-text: #0b1120;
+
+  --pass: #4ade80;
+  --pass-soft: #14301f;
+  --fail: #f87171;
+  --fail-soft: #3a1917;
+  --warn: #fbbf24;
+  --warn-soft: #3a2c10;
+  --info: #67d3f0;
+  --info-soft: #10303a;
+
+  --chart-1: #4a8cf7;
+  --chart-2: #0f9c73;
+  --chart-3: #c07d08;
+  --chart-4: #a368f2;
+  --chart-5: #ee4f52;
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 1px 3px rgb(0 0 0 / 0.3);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-pass: var(--pass);
+  --color-pass-soft: var(--pass-soft);
+  --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --radius-card: var(--radius);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sayfanin kendisi asla yatay kaymaz; genis icerik kendi kabinda kayar. */
+body {
+  overflow-x: hidden;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.5rem 0.9rem;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+.btn:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  background: var(--accent);
+}
+.btn-danger {
+  color: var(--fail);
+  border-color: var(--fail);
+}
+.btn-lg {
+  padding: 0.7rem 1.3rem;
+  font-size: 15px;
+}
+
+.input,
+.select {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+  color: var(--text);
+  font-size: 13px;
+  width: 100%;
+}
+.input:focus,
+.select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.badge-pass { background: var(--pass-soft); color: var(--pass); }
+.badge-fail { background: var(--fail-soft); color: var(--fail); }
+.badge-warn { background: var(--warn-soft); color: var(--warn); }
+.badge-info { background: var(--info-soft); color: var(--info); }
+.badge-muted { background: var(--surface-2); color: var(--text-muted); }
+
+.scroll-x {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.data th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  font-size: 12px;
+}
+table.data td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+table.data tr:last-child td {
+  border-bottom: none;
+}
+
+/* Gereksiz animasyon yok; yalnizca odak/gecis geri bildirimleri. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
